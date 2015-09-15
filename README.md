@@ -4,6 +4,10 @@ lightweight javascript promise library
 ## Install
 
 ```sh
+bower install headq
+```
+
+```sh
 npm install headq --save
 ```
 
