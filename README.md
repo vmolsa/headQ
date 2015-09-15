@@ -3,13 +3,13 @@ lightweight javascript promise library
 
 ### Install
 
-```
+```sh
 npm install headQ --save
 ```
 
 ### Usage
 
-```
+```js
 var $q = require('headQ');
 ```
 
