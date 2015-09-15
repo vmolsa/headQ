@@ -1,0 +1,23 @@
+{
+  "name": "headQ",
+  "version": "1.0.0",
+  "description": "lightweight javascript promise library",
+  "homepage": "https://github.com/vmolsa/headQ",
+  "author": "https://github.com/vmolsa",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vmolsa/headQ.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vmolsa/headQ/issues"
+  },
+  "keywords": [
+	  "Q",
+    "promise",
+	  "lightweight",
+	  "angular",
+	  "$q"
+  ],
+  "license": "MIT",
+  "main": "index.js"
+}
