@@ -1,16 +1,22 @@
 # headQ
 lightweight javascript promise library
 
-### Install
+## Install
 
 ```sh
-npm install headQ --save
+npm install headq --save
 ```
 
-### Usage
+## Usage
 
+### NodeJs
 ```js
-var $q = require('headQ');
+var $q = require('headq');
+```
+
+### Browser
+```js
+var $q = window.$q;
 ```
 
 [API Documentation](https://docs.angularjs.org/api/ng/service/$q)
