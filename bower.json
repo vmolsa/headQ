@@ -6,6 +6,10 @@
   "authors": [
     "Ville Mölsä <ville.molsa@gmail.com>"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vmolsa/headQ.git"
+  },
   "description": "lightweight javascript promise library",
   "keywords": [
     "Q",
