@@ -4,7 +4,7 @@ lightweight javascript promise library
 ## Install
 
 ```sh
-bower install headq
+bower install headq --save
 ```
 
 ```sh
