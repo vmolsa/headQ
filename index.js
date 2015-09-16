@@ -98,21 +98,21 @@
   Defer.prototype.resolve = function(arg) {
     var self = this;
     
-    if (isArray(self.promise.onresolve)) {
-      var callbacks = self.promise.onresolve;
-      
-      asyncCall(function() {
+    asyncCall(function() {
+      if (isArray(self.promise.onresolve) && !self.rejected) {
+        var callbacks = self.promise.onresolve;
+ 
         callbacks.forEach(function(callback) {
           try {
             callback.call(self, arg);
           } catch(ignored) {}
         });
-      });
-    }
-    
-    self.promise.onresolve = null;
-    self.promise.onreject = null;
-    self.promise.onnotify = null;
+        
+        self.promise.onresolve = null;
+        self.promise.onreject = null;
+        self.promise.onnotify = null;
+      }
+    });
     
     return self.promise;
   };
@@ -120,21 +120,23 @@
   Defer.prototype.reject = function(arg) {
 	  var self = this;
     
-    if (isArray(self.promise.onreject)) {
-      var callbacks = self.promise.onreject;
+    self.rejected = true;
+    
+    asyncCall(function() {
+      if (isArray(self.promise.onreject)) {
+        var callbacks = self.promise.onreject;
       
-      asyncCall(function() {
         callbacks.forEach(function(callback) {
           try {
             callback.call(self, arg);
           } catch(ignored) {}
         });
-      });
-    }
-    
-    self.promise.onresolve = null;
-    self.promise.onreject = null;
-    self.promise.onnotify = null;
+      }
+      
+      self.promise.onresolve = null;
+      self.promise.onreject = null;
+      self.promise.onnotify = null;
+    });
     
     return self.promise;
   };
@@ -142,17 +144,17 @@
   Defer.prototype.notify = function(arg) {
 	  var self = this;
     
-    if (isArray(self.promise.onnotify)) {
-      var callbacks = self.promise.onnotify;
+    asyncCall(function() {
+      if (isArray(self.promise.onnotify)) {
+        var callbacks = self.promise.onnotify;
       
-      asyncCall(function() {
         callbacks.forEach(function(callback) {
           try {
             callback.call(self, arg);
           } catch(ignored) {}
         });
-      });
-    }
+      }
+    });
   };
   
   var $q = function(callback) {
@@ -160,18 +162,14 @@
     
     function onResolve(data) {
       req.resolve(data);
-      req = null;
     }
     
     function onReject(data) {
       req.reject(data);
-      req = null;
     }
     
     function onNotify(data) {
-      if (req) {
-        req.notify(data);
-      }
+      req.notify(data);
     }
     
     asyncCall(function() {
@@ -196,10 +194,8 @@
 
     var req = new Defer();
     
-    asyncCall(function() {
-      req.resolve(arg);
-    });
-    
+    req.resolve(arg);
+   
     return req.promise;
   };
   
@@ -208,11 +204,8 @@
   $q.reject = function(arg) {
     var req = new Defer();
     
-    asyncCall(function() {
-      req.reject(arg);
-      req = null;
-    });
-    
+    req.reject(arg);
+     
     return req.promise;
   };
   
@@ -236,27 +229,19 @@
             res[index] = arg;
             
             if (!len) {
-              asyncCall(function() {
-                req.resolve(res);
-              });
+              req.resolve(res);
             }
           }, function(error) {
-            asyncCall(function() {
-              req.reject(error);
-            });
+            req.reject(error);
           });
         });
       } else {
-        asyncCall(function() {
-          req.resolve([]);
-        });
+        req.resolve([]);
       }
     } catch (error) {
-      asyncCall(function() {
-        req.reject(error);
-      });
+      req.reject(error);
     }
-           
+
     return req.promise;
   };
   
