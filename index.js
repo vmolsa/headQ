@@ -13,9 +13,25 @@
     return (typeof(arg) === 'function');
   }
   
-  function asyncCall(callback) {
+  var delayedCall = null;
+  
+  if (typeof(window) !== 'undefined') {
+    if (isFunction(window.setImmediate)) {
+      delayedCall = window.setImmediate;
+    }
+  } else {
     if (isFunction(setImmediate)) {
-      return setImmediate(callback);
+      delayedCall = setImmediate;
+    } else {
+      if (typeof(process) !== 'undefined' && isFunction(process.nextTick)) {
+        delayedCall = process.nextTick;
+      }
+    }
+  }
+  
+  function asyncCall(callback) {
+    if (isFunction(delayedCall)) {
+      return delayedCall(callback);
     } else {
       return setTimeout(callback, 0);
     }
