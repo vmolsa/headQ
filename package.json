@@ -1,6 +1,6 @@
 {
   "name": "headq",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "lightweight javascript promise library",
   "homepage": "https://github.com/vmolsa/headQ",
   "author": "https://github.com/vmolsa",
