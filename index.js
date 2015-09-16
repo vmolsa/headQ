@@ -34,22 +34,22 @@
       }
       
       self.onresolve.push(onResolve);
+    }
       
-      if (isFunction(onReject)) {
-        if (!isArray(self.onreject)) {
-          self.onreject = [];
-        }
-        
-        self.onreject.push(onReject);
-        
-        if (isFunction(onNotify)) {
-          if (!isArray(self.onnotify)) {
-            self.onnotify = [];
-          }
-          
-          self.onnotify.push(onNotify);
-        }
+    if (isFunction(onReject)) {
+      if (!isArray(self.onreject)) {
+        self.onreject = [];
       }
+      
+      self.onreject.push(onReject);
+    }
+        
+    if (isFunction(onNotify)) {
+      if (!isArray(self.onnotify)) {
+        self.onnotify = [];
+      }
+      
+      self.onnotify.push(onNotify);
     }
     
     return self;
@@ -99,10 +99,14 @@
     var self = this;
     
     if (isArray(self.promise.onresolve)) {
-      self.promise.onresolve.forEach(function(callback) {
-        try {
-          callback.call(self, arg);
-        } catch(ignored) {}
+      var callbacks = self.promise.onresolve;
+      
+      asyncCall(function() {
+        callbacks.forEach(function(callback) {
+          try {
+            callback.call(self, arg);
+          } catch(ignored) {}
+        });
       });
     }
     
@@ -117,10 +121,14 @@
 	  var self = this;
     
     if (isArray(self.promise.onreject)) {
-      self.promise.onreject.forEach(function(callback) {
-        try {
-          callback.call(self, arg);
-        } catch(ignored) {}
+      var callbacks = self.promise.onreject;
+      
+      asyncCall(function() {
+        callbacks.forEach(function(callback) {
+          try {
+            callback.call(self, arg);
+          } catch(ignored) {}
+        });
       });
     }
     
@@ -135,10 +143,14 @@
 	  var self = this;
     
     if (isArray(self.promise.onnotify)) {
-      self.promise.onnotify.forEach(function(callback) {
-        try {
-          callback.call(self, arg);
-        } catch(ignored) {}
+      var callbacks = self.promise.onnotify;
+      
+      asyncCall(function() {
+        callbacks.forEach(function(callback) {
+          try {
+            callback.call(self, arg);
+          } catch(ignored) {}
+        });
       });
     }
   };
