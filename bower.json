@@ -1,7 +1,7 @@
 {
   "name": "headq",
   "main": "index.js",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "homepage": "https://github.com/vmolsa/headQ",
   "authors": [
     "Ville Mölsä <ville.molsa@gmail.com>"
